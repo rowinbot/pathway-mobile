@@ -5,10 +5,10 @@ class CloverCardContent extends StatelessWidget {
   final double opacity;
 
   const CloverCardContent({
-    Key? key,
+    super.key,
     required this.color,
     required this.opacity,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

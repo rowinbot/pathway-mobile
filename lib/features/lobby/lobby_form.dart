@@ -11,7 +11,7 @@ import 'package:pathway_mobile/helpers/validators.dart';
 import 'package:pathway_mobile/widgets/themed_divider.dart';
 
 class LobbyForm extends ConsumerStatefulWidget {
-  const LobbyForm({Key? key}) : super(key: key);
+  const LobbyForm({super.key});
 
   @override
   ConsumerState<LobbyForm> createState() => _LobbyFormState();
@@ -41,7 +41,7 @@ class _LobbyFormState extends ConsumerState<LobbyForm> {
         codeController.text.isEmpty ? null : codeController.text,
       );
 
-      if (!context.mounted) return;
+      if (!mounted) return;
       navigateToRoute<GameScreenArguments>(
         context,
         AppRoutes.game,

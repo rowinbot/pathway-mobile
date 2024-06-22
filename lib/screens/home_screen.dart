@@ -4,7 +4,7 @@ import 'package:pathway_mobile/theme/insets_theme.dart';
 import 'package:pathway_mobile/widgets/themed_divider.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

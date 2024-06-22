@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:pathway_mobile/features/game/started/card_content/empty_card_content.dart';
 import 'package:pathway_mobile/features/game/started/game_card.dart';
+import 'package:pathway_mobile/features/game/started/game_card_container.dart';
 import 'package:pathway_mobile/models/match/card_object.dart';
 import 'package:pathway_mobile/models/match/match_player_hand.dart';
 import 'package:pathway_mobile/theme/insets_theme.dart';
@@ -14,7 +16,7 @@ class GamePlayerHand extends StatelessWidget {
   final void Function(bool show) onToggleShowAllHints;
 
   const GamePlayerHand({
-    Key? key,
+    super.key,
     required this.playerTeam,
     required this.playerHand,
     required this.lastPlayedCard,
@@ -22,7 +24,7 @@ class GamePlayerHand extends StatelessWidget {
     required this.showAllHints,
     required this.onShowHintsForCard,
     required this.onToggleShowAllHints,
-  }) : super(key: key);
+  });
 
   void onPickHandCard(CardObject? card, int row, int col) {
     if (card == null) {
@@ -37,7 +39,6 @@ class GamePlayerHand extends StatelessWidget {
   }
 
   void onClickShowAllHints() {
-    print('onClickShowAllHints');
     onToggleShowAllHints(!showAllHints);
   }
 
@@ -61,31 +62,31 @@ class GamePlayerHand extends StatelessWidget {
                       disabled: false,
                       occupiedByTeam: null,
                       isPartOfASequence: false,
-                      borderColor: null,
                       onPlayCard: onPickHandCard,
                     ),
                   )
                   .toList(),
-              GameCard(
-                card: null,
-                row: 0,
-                col: 0,
+              GameCardContainer(
                 disabled: false,
-                occupiedByTeam: null,
-                isPartOfASequence: false,
-                borderColor: null,
-                onPlayCard: (a, b, c) => onClickShowAllHints(),
+                highlightBorder: false,
+                onTap: onClickShowAllHints,
+                children: const [
+                  Align(
+                    alignment: Alignment.center,
+                    child: EmptyCardContent(),
+                  ),
+                ],
               ),
-              GameCard(
-                card: lastPlayedCard,
-                row: 0,
-                col: 0,
-                disabled: true,
-                occupiedByTeam: null,
-                isPartOfASequence: false,
-                borderColor: null,
-                onPlayCard: (a, b, c) => (),
-              )
+              if (lastPlayedCard != null)
+                GameCard(
+                  card: lastPlayedCard!,
+                  row: 0,
+                  col: 0,
+                  disabled: true,
+                  occupiedByTeam: null,
+                  isPartOfASequence: false,
+                  onPlayCard: (a, b, c) => (),
+                )
             ],
           )
         ],

@@ -14,14 +14,14 @@ class GameBoard extends StatelessWidget {
   final void Function(CardObject? card, int row, int col) onPlayCard;
 
   const GameBoard({
-    Key? key,
+    super.key,
     required this.boardState,
     required this.playerHand,
     required this.currentMatchPlayer,
     required this.showHintsForCard,
     required this.showAllHints,
     required this.onPlayCard,
-  }) : super(key: key);
+  });
 
   Widget buildRow(
     List<CardObject?> row, {
@@ -35,16 +35,7 @@ class GameBoard extends StatelessWidget {
         bool isDisabled = false;
 
         if (card == null) {
-          return GameCard(
-            card: null,
-            row: rowI,
-            col: colI,
-            disabled: true,
-            occupiedByTeam: null,
-            isPartOfASequence: false,
-            borderColor: null,
-            onPlayCard: onPlayCard,
-          );
+          return const GameCardEmpty();
         }
 
         if (currentMatchPlayer != null) {
@@ -66,7 +57,6 @@ class GameBoard extends StatelessWidget {
           disabled: isDisabled,
           occupiedByTeam: boardState[rowI][colI].team,
           isPartOfASequence: boardState[rowI][colI].isPartOfASequence,
-          borderColor: null,
           onPlayCard: onPlayCard,
         );
       }).toList(),

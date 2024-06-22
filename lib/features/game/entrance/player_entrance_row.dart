@@ -11,12 +11,12 @@ class PlayerEntranceRow extends StatelessWidget {
   ) movePlayerToTeamInDirection;
 
   const PlayerEntranceRow({
-    Key? key,
+    super.key,
     required this.player,
     required this.isCurrentPlayer,
     required this.currentPlayerIsOwner,
     required this.movePlayerToTeamInDirection,
-  }) : super(key: key);
+  });
 
   void movePlayerToPreviousTeam() {
     movePlayerToTeamInDirection(player, -1);
@@ -33,6 +33,12 @@ class PlayerEntranceRow extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
+          if (player.isOwner) const Text("🛡️"),
+          switch (player.isConnected) {
+            true => const Text("🟢"),
+            false => const Text("🟡"),
+          },
+          const SizedBox(width: 10.0),
           Flexible(
             child: Text(
               player.nickname,
@@ -43,19 +49,18 @@ class PlayerEntranceRow extends StatelessWidget {
           ),
           if (currentPlayerIsOwner || isCurrentPlayer)
             IconButton(
+              padding: const EdgeInsets.all(6.0),
+              constraints: const BoxConstraints(),
               onPressed: movePlayerToPreviousTeam,
               icon: const Icon(Icons.arrow_drop_up),
             ),
           if (currentPlayerIsOwner || isCurrentPlayer)
             IconButton(
+              padding: const EdgeInsets.all(6.0),
+              constraints: const BoxConstraints(),
               onPressed: movePlayerToNextTeam,
               icon: const Icon(Icons.arrow_drop_down),
             ),
-          if (player.isOwner) const Text("🛡️"),
-          switch (player.isConnected) {
-            true => const Text("🟢"),
-            false => const Text("🟡"),
-          },
         ],
       ),
     );

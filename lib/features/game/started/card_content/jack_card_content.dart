@@ -5,10 +5,10 @@ class JackCardContent extends StatelessWidget {
   final double opacity;
 
   const JackCardContent({
-    Key? key,
+    super.key,
     required this.color,
     required this.opacity,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

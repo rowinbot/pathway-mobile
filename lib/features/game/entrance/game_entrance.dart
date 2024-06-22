@@ -11,12 +11,12 @@ class GameEntrance extends StatelessWidget {
   final void Function(String playerId, int team) setPlayerToTeam;
 
   const GameEntrance({
-    Key? key,
+    super.key,
     required this.currentMatchPlayer,
     required this.matchPlayers,
     required this.startGame,
     required this.setPlayerToTeam,
-  }) : super(key: key);
+  });
 
   Map<int, List<MatchPlayer>> get matchTeams {
     Map<int, List<MatchPlayer>> teams = {0: [], 1: [], 2: []};

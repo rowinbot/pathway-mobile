@@ -6,7 +6,7 @@ import 'package:pathway_mobile/widgets/themed_divider.dart';
 
 class LobbyScreen extends StatelessWidget {
   static const String title = "Lobby";
-  const LobbyScreen({Key? key}) : super(key: key);
+  const LobbyScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

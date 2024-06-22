@@ -45,7 +45,7 @@ abstract class CardNumber {
   static const String king = 'K';
 }
 
-var _uuid = Uuid();
+const _uuid = Uuid();
 
 String cardId(String kind, String number) => '$kind-$number';
 

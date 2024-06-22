@@ -11,10 +11,13 @@ import 'package:pathway_mobile/models/match/match_player_movement.dart';
 import 'package:pathway_mobile/services/http_service.dart';
 import 'package:pathway_mobile/services/party/party_utils.dart';
 import 'package:pathway_mobile/services/player/player_service.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
-import 'package:socket_io_client/src/manager.dart' as IOManager;
+import 'package:socket_io_client/socket_io_client.dart' as io;
 
-class LiveGameEventHandlers {
+// Temporal fix for cleanup:
+// ignore: implementation_imports
+import 'package:socket_io_client/src/manager.dart' as io_manager;
+
+class LiveGameEventListener {
   final void Function() onConnect;
   final void Function() onDisconnect;
   final void Function(PartyJoinStatus partyJoinStatus) onPartyJoin;
@@ -35,7 +38,7 @@ class LiveGameEventHandlers {
   final void Function() onPartyFinished;
   final void Function(int? winner) onMatchFinished;
 
-  const LiveGameEventHandlers({
+  const LiveGameEventListener({
     required this.onConnect,
     required this.onDisconnect,
     required this.onPartyJoin,
@@ -108,15 +111,15 @@ enum ClientToServerEvent {
 
 class GameService extends HTTPService {
   final playerService = const PlayerService();
-  IO.Socket? socket;
+  io.Socket? socket;
 
   GameService() : super();
 
-  void connect(String partyCode, LiveGameEventHandlers listeners) async {
+  void connect(String partyCode, LiveGameEventListener listeners) async {
     var playerId = await playerService.getRequiredStoredPlayerId();
-    var socket = IO.io(
+    var socket = io.io(
       apiWSUrl,
-      IO.OptionBuilder()
+      io.OptionBuilder()
           .setTransports(['websocket']) // for Flutter or Dart VM
           .disableAutoConnect()
           .setExtraHeaders({
@@ -271,10 +274,9 @@ class GameService extends HTTPService {
 
   Future<String?> startGame() {
     Completer<String?> completer = Completer();
-    var payload = null;
     socket!.emitWithAck(
       ClientToServerEvent.startGame.value,
-      payload,
+      null,
       ack: (value) {
         var list = value as List<dynamic>;
 
@@ -297,10 +299,10 @@ class GameService extends HTTPService {
     /// Otherwise the extraHeaders will not be properly cleared out.
     /// This of course implies that any other socket connection _could_ be affected
     /// but since we only have one socket connection at a time, this is fine.
-    if (IO.cache.isNotEmpty) {
-      var manager = IO.cache['$apiWSUrl:0'] as IOManager.Manager;
+    if (io.cache.isNotEmpty) {
+      var manager = io.cache['$apiWSUrl:0'] as io_manager.Manager;
       manager.destroy(socket!);
-      IO.cache.clear();
+      io.cache.clear();
     }
 
     socket?.destroy();

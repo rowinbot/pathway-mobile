@@ -5,10 +5,10 @@ class HeartCardContent extends StatelessWidget {
   final double opacity;
 
   const HeartCardContent({
-    Key? key,
+    super.key,
     required this.color,
     required this.opacity,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

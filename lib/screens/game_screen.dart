@@ -16,7 +16,7 @@ class GameScreen extends StatelessWidget {
   static const String title = "Game";
   static const pathwayGameUrl = "https://pathway.rowinbot.com/game";
 
-  const GameScreen({Key? key}) : super(key: key);
+  const GameScreen({super.key});
 
   GameScreenArguments getArguments(BuildContext context) {
     return ModalRoute.of(context)!.settings.arguments as GameScreenArguments;
@@ -27,9 +27,10 @@ class GameScreen extends StatelessWidget {
     final isDesktop =
         Platform.isWindows || Platform.isLinux || Platform.isMacOS;
 
+    var gameUrl = "$pathwayGameUrl/${arguments.party.code}";
+
     if (isDesktop) {
-      await Clipboard.setData(
-          ClipboardData(text: "$pathwayGameUrl/${arguments.party.code}"));
+      await Clipboard.setData(ClipboardData(text: gameUrl));
       if (!context.mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -37,7 +38,7 @@ class GameScreen extends StatelessWidget {
         ),
       );
     } else {
-      Share.share('Join my game on Pathway! Code: ${arguments.party.code}');
+      Share.share('Join my game on Pathway! Code: $gameUrl');
     }
   }
 

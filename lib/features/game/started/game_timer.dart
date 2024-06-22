@@ -11,12 +11,12 @@ class GameTimer extends StatefulWidget {
   final MatchPlayer? currentTurnPlayer;
 
   const GameTimer({
-    Key? key,
+    super.key,
     required this.turnStartTime,
     required this.turnTimeLimitSeconds,
     required this.isCurrentPlayerTurn,
     required this.currentTurnPlayer,
-  }) : super(key: key);
+  });
 
   @override
   State<GameTimer> createState() => _GameTimerState();

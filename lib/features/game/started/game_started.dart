@@ -23,7 +23,7 @@ class GameStarted extends StatefulWidget {
   final void Function(CardObject card, int row, int col) onPlayCard;
 
   const GameStarted({
-    Key? key,
+    super.key,
     required this.boardState,
     required this.matchCurrentTurn,
     required this.matchCurrentTurnPlayer,
@@ -34,7 +34,7 @@ class GameStarted extends StatefulWidget {
     required this.playerHand,
     required this.lastPlayedCard,
     required this.onPlayCard,
-  }) : super(key: key);
+  });
 
   @override
   State<GameStarted> createState() => _GameStarted();
@@ -98,6 +98,11 @@ class _GameStarted extends State<GameStarted> {
           Container(
             color: (isCurrentPlayerTurn ? Colors.deepPurple : Colors.white)
                 .withAlpha(60),
+            padding: EdgeInsets.symmetric(
+              vertical: InsetsTheme.of(context)
+                  .containers
+                  .padding(InsetScalar.extraSmall4),
+            ),
             child: GameBoard(
               boardState: widget.boardState,
               playerHand: widget.playerHand,

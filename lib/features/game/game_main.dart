@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pathway_mobile/features/game/entrance/game_entrance.dart';
-import 'package:pathway_mobile/features/game/started/game_started.dart';
+import 'package:pathway_mobile/features/game/finished/game_finished.dart';
 import 'package:pathway_mobile/models/match/card_object.dart';
 import 'package:pathway_mobile/models/match/match_board_cell.dart';
 import 'package:pathway_mobile/models/match/match_config.dart';
@@ -19,7 +19,7 @@ import 'package:pathway_mobile/services/party/party_utils.dart';
 
 class GameMain extends ConsumerStatefulWidget {
   final Party party;
-  const GameMain({Key? key, required this.party}) : super(key: key);
+  const GameMain({super.key, required this.party});
 
   @override
   ConsumerState<GameMain> createState() => _GameMainState();
@@ -68,7 +68,7 @@ class _GameMainState extends ConsumerState<GameMain> {
 
     gameService.connect(
       widget.party.code,
-      LiveGameEventHandlers(
+      LiveGameEventListener(
         onConnect: onConnect,
         onDisconnect: onDisconnect,
         onPartyJoin: onPartyJoin,
@@ -191,14 +191,21 @@ class _GameMainState extends ConsumerState<GameMain> {
     });
   }
 
-  void onPartyFinished() {}
-  void onMatchFinished(int? winner) {}
+  void onPartyFinished() {
+    Navigator.of(context).pop();
+  }
+
+  void onMatchFinished(int? winner) {
+    setState(() {
+      matchWinner = winner;
+    });
+  }
 
   void startGame() async {
     var didNotStartReason = await gameService.startGame();
 
     if (didNotStartReason != null) {
-      if (!context.mounted) return;
+      if (!mounted) return;
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -234,19 +241,23 @@ class _GameMainState extends ConsumerState<GameMain> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: switch (matchStarted) {
-        true => GameStarted(
-            boardState: boardState,
-            matchCurrentTurn: matchCurrentTurn,
-            matchCurrentTurnPlayer: matchCurrentTurnPlayer,
-            currentMatchPlayer: currentMatchPlayer,
-            matchPlayers: matchPlayers,
-            matchWinner: matchWinner,
-            matchConfig: matchConfig,
-            playerHand: playerHand,
-            lastPlayedCard: lastPlayedCard,
-            onPlayCard: onPlayCard,
-          ),
+      child: switch (!matchStarted) {
+        true => switch (matchWinner) {
+            (int winner) => Text('Match Finished $winner'),
+            null => GameFinished(matchWinner: matchWinner),
+            // null => GameStarted(
+            //     boardState: boardState,
+            //     matchCurrentTurn: matchCurrentTurn,
+            //     matchCurrentTurnPlayer: matchCurrentTurnPlayer,
+            //     currentMatchPlayer: currentMatchPlayer,
+            //     matchPlayers: matchPlayers,
+            //     matchWinner: matchWinner,
+            //     matchConfig: matchConfig,
+            //     playerHand: playerHand,
+            //     lastPlayedCard: lastPlayedCard,
+            //     onPlayCard: onPlayCard,
+            //   ),
+          },
         false => GameEntrance(
             currentMatchPlayer: currentMatchPlayer,
             matchPlayers: matchPlayers,

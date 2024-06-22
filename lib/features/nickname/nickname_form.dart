@@ -6,7 +6,7 @@ import 'package:pathway_mobile/helpers/validators.dart';
 import 'package:pathway_mobile/widgets/themed_divider.dart';
 
 class NicknameForm extends ConsumerStatefulWidget {
-  const NicknameForm({Key? key}) : super(key: key);
+  const NicknameForm({super.key});
 
   @override
   ConsumerState<NicknameForm> createState() => _NicknameFormState();
@@ -46,7 +46,7 @@ class _NicknameFormState extends ConsumerState<NicknameForm> {
         .read(playerGlobalProvider.notifier)
         .updateNickname(nicknameController.text);
 
-    if (!context.mounted) return;
+    if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text("Nickname updated"),

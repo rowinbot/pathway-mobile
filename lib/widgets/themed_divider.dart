@@ -3,7 +3,7 @@ import 'package:pathway_mobile/theme/insets_theme.dart';
 
 class ThemedDivider extends StatelessWidget {
   final InsetScalar size;
-  const ThemedDivider({Key? key, required this.size}) : super(key: key);
+  const ThemedDivider({super.key, required this.size});
 
   @override
   Widget build(BuildContext context) {
