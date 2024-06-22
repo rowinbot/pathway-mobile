@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pathway_mobile/features/game/entrance/game_entrance.dart';
 import 'package:pathway_mobile/features/game/finished/game_finished.dart';
+import 'package:pathway_mobile/features/game/started/game_started.dart';
 import 'package:pathway_mobile/models/match/card_object.dart';
 import 'package:pathway_mobile/models/match/match_board_cell.dart';
 import 'package:pathway_mobile/models/match/match_config.dart';
@@ -241,22 +242,21 @@ class _GameMainState extends ConsumerState<GameMain> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: switch (!matchStarted) {
+      child: switch (matchStarted) {
         true => switch (matchWinner) {
-            (int winner) => Text('Match Finished $winner'),
-            null => GameFinished(matchWinner: matchWinner),
-            // null => GameStarted(
-            //     boardState: boardState,
-            //     matchCurrentTurn: matchCurrentTurn,
-            //     matchCurrentTurnPlayer: matchCurrentTurnPlayer,
-            //     currentMatchPlayer: currentMatchPlayer,
-            //     matchPlayers: matchPlayers,
-            //     matchWinner: matchWinner,
-            //     matchConfig: matchConfig,
-            //     playerHand: playerHand,
-            //     lastPlayedCard: lastPlayedCard,
-            //     onPlayCard: onPlayCard,
-            //   ),
+            (int winner) => GameFinished(matchWinner: winner),
+            null => GameStarted(
+                boardState: boardState,
+                matchCurrentTurn: matchCurrentTurn,
+                matchCurrentTurnPlayer: matchCurrentTurnPlayer,
+                currentMatchPlayer: currentMatchPlayer,
+                matchPlayers: matchPlayers,
+                matchWinner: matchWinner,
+                matchConfig: matchConfig,
+                playerHand: playerHand,
+                lastPlayedCard: lastPlayedCard,
+                onPlayCard: onPlayCard,
+              ),
           },
         false => GameEntrance(
             currentMatchPlayer: currentMatchPlayer,

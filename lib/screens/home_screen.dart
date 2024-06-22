@@ -24,7 +24,7 @@ class HomeScreen extends StatelessWidget {
               style: Theme.of(context).textTheme.headlineLarge,
             ),
             Text(
-              'The Game',
+              'A sequence game',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
             const ThemedDivider(

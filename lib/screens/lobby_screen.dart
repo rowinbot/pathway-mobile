@@ -18,23 +18,25 @@ class LobbyScreen extends StatelessWidget {
         padding: EdgeInsets.all(
           InsetsTheme.of(context).containers.padding(InsetScalar.extraSmall2),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Search or create a new game",
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-            const ThemedDivider(size: InsetScalar.normal),
-            const LobbyForm(),
-            const ThemedDivider(size: InsetScalar.extraLarge3),
-            Text(
-              "Update your nickname",
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-            const ThemedDivider(size: InsetScalar.small),
-            const NicknameForm(),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Search or create a new game",
+                style: Theme.of(context).textTheme.headlineMedium,
+              ),
+              const ThemedDivider(size: InsetScalar.normal),
+              const LobbyForm(),
+              const ThemedDivider(size: InsetScalar.extraLarge3),
+              Text(
+                "Update your nickname",
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+              const ThemedDivider(size: InsetScalar.small),
+              const NicknameForm(),
+            ],
+          ),
         ),
       ),
     );

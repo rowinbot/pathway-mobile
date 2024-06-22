@@ -1,15 +1,26 @@
-// TODO: Implement flutter_secure_storage with entitlements.
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
 Map<String, String?> inMemorySecureStorage = {};
 
 class SecureStorage {
+  final _storage = const FlutterSecureStorage(
+    aOptions: AndroidOptions(
+      encryptedSharedPreferences: true,
+    ),
+  );
+
   const SecureStorage();
 
   Future<String?> read({required String key}) async {
-    return inMemorySecureStorage[key];
+    return _storage.read(key: key);
   }
 
   Future<void> write({required String key, String? value}) async {
-    inMemorySecureStorage[key] = value;
+    await _storage.write(key: key, value: value);
+  }
+
+  Future<void> delete({required String key}) async {
+    await _storage.delete(key: key);
   }
 }
 
