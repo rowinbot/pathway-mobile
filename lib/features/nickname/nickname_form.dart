@@ -74,6 +74,8 @@ class _NicknameFormState extends ConsumerState<NicknameForm> {
               loading: () => false,
               error: (error, stackTrace) => false,
             ),
+            textInputAction: TextInputAction.send,
+            onFieldSubmitted: (_) => submit(),
             validator: nicknameValidator.fn,
           ),
           const ThemedDivider(size: InsetScalar.small),

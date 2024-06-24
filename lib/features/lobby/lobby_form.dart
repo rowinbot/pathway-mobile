@@ -77,6 +77,8 @@ class _LobbyFormState extends ConsumerState<LobbyForm> {
               loading: () => false,
               error: (error, stackTrace) => false,
             ),
+            textInputAction: TextInputAction.send,
+            onFieldSubmitted: (_) => submit(),
             inputFormatters: const [GameCodeInputFormatter()],
             validator: gameCodeValidator.fn,
           ),
